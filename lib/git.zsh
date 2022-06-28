@@ -19,6 +19,9 @@ function git_prompt_info() {
 
   local ref
   ref=$(__git_prompt_git symbolic-ref --short HEAD 2> /dev/null) \
+  || [[ ! -z ${ref:=$(__git_prompt_git --no-pager tag --points-at HEAD --no-column 2> /dev/null \
+                      | xargs \
+                      | sed -e 's/ /, /g')} ]] \
   || ref=$(__git_prompt_git rev-parse --short HEAD 2> /dev/null) \
   || return 0
 
